@@ -277,5 +277,5 @@ test_function_v2('nrow')
 # makes sure they typed a minus sign somewhere
 test_student_typed('-')
 
-test_object(surveys_first)
+test_object('surveys_first')
 ```
