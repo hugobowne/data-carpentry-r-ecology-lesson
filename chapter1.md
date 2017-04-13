@@ -8,7 +8,7 @@ attachments :
 --- type:NormalExercise lang:r xp:100 skills:1 key:e619cd064b
 ## Importing your data and first views
 
-In this exercises, you'll import your ecological dataset. After doing so, you'll check out the first rows using the function `head()`. Make sure to read the information that this function call outputs to your console to get a first idea of ehat your data looks like. Happy importing!
+In this exercise, you'll import your ecological dataset. After doing so, you'll check out the first rows using the function `head()`. Make sure to read the information that this function call outputs to your console to get a first idea of what your data looks like. Happy importing!
 
 *** =instructions
 - Download the file from `"https://ndownloader.figshare.com/files/2292169"` to the location `"data/portal_data_joined.csv"`.
