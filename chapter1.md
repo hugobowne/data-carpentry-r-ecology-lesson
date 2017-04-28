@@ -279,3 +279,176 @@ test_student_typed('-')
 
 test_object('surveys_first')
 ```
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:cbfadda567
+## Factor challenge (1)
+
+
+*** =instructions
+
+- Rename “F” and “M” to “female” and “male” respectively.
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+surveys <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_3707/datasets/combined.csv")
+```
+
+*** =sample_code
+```{r}
+# surveys has already been defined for you
+sex <- surveys$sex
+levels(sex)[1] <- "missing"
+
+# Rename F and M
+
+
+```
+
+*** =solution
+```{r}
+# surveys has already been defined for you
+sex <- surveys$sex
+levels(sex)[1] <- "missing"
+
+# Rename F and M
+levels(sex)[2:3] <- c("Female", "Male")
+
+```
+
+*** =sct
+```{r}
+
+```
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:df8f896c7f
+## Factor challenge (2)
+
+
+*** =instructions
+- Now that we have renamed the factor level to “missing”, can you recreate the barplot such that “missing” is last (after “Male”)?
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+surveys <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/course_3707/datasets/combined.csv")
+sex <- surveys$sex
+levels(sex) <- c("missing", "Female", "Male")
+
+```
+
+*** =sample_code
+```{r}
+# sex already has factors renamed to "missing", "Female", "Male"
+print(levels(sex))
+
+# create barplot of sex with "missing" last
+
+```
+
+*** =solution
+```{r}
+# sex already has factors renamed to "missing", "Female", "Male"
+print(levels(sex))
+
+# create barplot of sex with "missing" last
+sex2 <- factor(sex, levels = c("Female", "Male", "missing"))
+plot(sex2)
+
+```
+
+*** =sct
+```{r}
+
+```
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:1b0bd6996f
+## stringsAsFactors Challenge (1)
+
+We have seen how data frames are created when using the read.csv(), but they can also be created by hand with the data.frame() function. There are a few mistakes in this hand-crafted `data.frame`, can you spot and fix them? Don’t hesitate to experiment!
+
+*** =instructions
+
+- Fix the mistakes in making this `data.frame`
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+animal_data <- data.frame(
+        animal=c("dog", "cat", "sea cucumber", "sea urchin"),
+        feel=c("furry", "squishy", "spiny"),
+        weight=c(45, 8 1.1, 0.8)
+        )
+```
+
+*** =solution
+```{r}
+animal_data <- data.frame(
+        animal=c("dog", "cat", "sea cucumber", "sea urchin"),
+        feel=c("furry", "furry", "squishy", "spiny"),
+        weight=c(45, 8, 1.1, 0.8)
+        )
+```
+
+*** =sct
+```{r}
+# MC-note: need to check SCT
+test_correct(test_error(), {
+    test_student_typed("8, 1.1", not_typed_msg = "Does your weight row use commas correctly?")
+    test_student_typed('"furry", "furry"', not_typed_msg = "Does your feel row have one entry for each animal")
+    })
+```
+
+
+--- type:NormalExercise lang:r xp:100 skills:1 key:dce923f581
+## stringsAsFactors Challenge (2)
+
+[MC-note] no SCTs currently--would it be better as MultipleChoice, or maybe just leave as is..
+
+*** =instructions
+
+
+
+*** =hint
+
+*** =pre_exercise_code
+```{r}
+
+```
+
+*** =sample_code
+```{r}
+country_climate <- data.frame(
+       country=c("Canada", "Panama", "South Africa", "Australia"),
+       climate=c("cold", "hot", "temperate", "hot/temperate"),
+       temperature=c(10, 30, 18, "15"),
+       northern_hemisphere=c(TRUE, TRUE, FALSE, "FALSE"),
+       has_kangaroo=c(FALSE, FALSE, FALSE, 1)
+       )
+
+```
+
+*** =solution
+```{r}
+country_climate <- data.frame(
+       country=c("Canada", "Panama", "South Africa", "Australia"),
+       climate=c("cold", "hot", "temperate", "hot/temperate"),
+       temperature=c(10, 30, 18, "15"),
+       northern_hemisphere=c(TRUE, TRUE, FALSE, "FALSE"),
+       has_kangaroo=c(FALSE, FALSE, FALSE, 1)
+       )
+       
+```
+
+*** =sct
+```{r}
+
+```
