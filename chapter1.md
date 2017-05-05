@@ -364,7 +364,7 @@ plot(sex2)
 ex() %>% 
     check_function('plot') %>%
     check_arg('x') %>%
-    check_output("Levels: missing Female Male",
+    check_output("Levels: Female Male missing",
                  fixed = TRUE, 
                  missing_msg = "Are the levels of the factor you passed to plot `Female, Male, missing`, in that order? \
                                 See the levels argument of `?factor` for help.")
