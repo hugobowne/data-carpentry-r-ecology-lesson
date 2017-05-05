@@ -44,6 +44,8 @@ ex() %>% check_function('select') %>% {
     check_code(., "sex")
     check_code(., "weight")
     }
+
+test_error()
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:30bfe02d63
@@ -89,6 +91,8 @@ test_correct(ex() %>% check_object('hindfoot') %>% check_equal(), {
     ex() %>% check_function('filter')
     ex() %>% check_function('select')
 })
+
+test_error()
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:d814d055fc
@@ -97,9 +101,14 @@ test_correct(ex() %>% check_object('hindfoot') %>% check_equal(), {
 
 *** =instructions
 
-- How many individuals were caught in each plot_type surveyed?
+How many individuals were caught in each plot_type surveyed?
+
+- create a data frame, `counts`, with two columns: `plot_type` and `n`
+- `n` should be the number of individuals caught in that `plot_type`.
 
 *** =hint
+
+- Try including `group_by(plot_type)` in your pipe.
 
 *** =pre_exercise_code
 ```{r}
@@ -115,26 +124,31 @@ surveys <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/cour
 
 *** =solution
 ```{r}
-surveys %>%
+counts <- surveys %>%
   group_by(plot_type) %>%
   tally()
 ```
 
 *** =sct
 ```{r}
+test_correct(ex() %>% check_object('counts') %>% check_equal(), {
+    ex() %>% check_function('group_by')
+    ex() %>% check_function('tally')
+    })
 
+test_error()
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:87223a9f01
 ## Split-apply-combine challenge (2)
 
 [MC-Note] 
-It's not clear to me what the answer is to this challenge.
-Should students filter groups of species_id with no `hindfoot_length` measures?
+I assumed this challenge didn't want students to use `filter` to remove NA values (but we could allow for that in the SCT)
 
 *** =instructions
 
 - Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot length for each species (using `species_id`).
+- While using `summarize`, be sure to remove NA values from your calculation.
 
 *** =hint
 
@@ -161,7 +175,16 @@ surveys %>%
 
 *** =sct
 ```{r}
+ex() %>% check_function('summarize') %>% {
+    # this test will be used below
+    removes_na <- . %>% check_arg('na.rm') %>%  check_equal()
+    # check each function used in summarize
+    check_function(., 'mean') %>% removes_na()
+    check_function(., 'min') %>% removes_na()
+    check_function(., 'max') %>% removes_na()
+    }
 
+test_error()
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:df9352def1
@@ -187,16 +210,24 @@ surveys <- read.csv("http://s3.amazonaws.com/assets.datacamp.com/production/cour
 
 *** =solution
 ```{r}
-surveys %>%
+weights <- surveys %>%
     group_by(year) %>%
-    filter(weight < max(weight)) %>%
+    filter(weight == max(weight)) %>%
     select(year, genus, species_id, weight)
 
 ```
 
 *** =sct
 ```{r}
+test_correct(ex() %>% check_object('weights') %>% check_equal(), {
+    ex() %>% check_code("group_by(year)", fixed = TRUE)
+    ex() %>% check_function('filter')
+    ex() %>% check_function('select')
+    for (colname in c('year', 'genus', 'species_id', 'weight'))
+        ex() %>% check_object('weights') %>% check_column(colname)
+    })
 
+test_error()
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:72bf13bbef
@@ -233,5 +264,8 @@ surveys %>%
 
 *** =sct
 ```{r}
+ex() %>% check_function("group_by") %>% check_code("group_by(sex)", fixed = TRUE)
+ex() %>% check_function('summarize') %>% check_code("n()", fixed = TRUE)
 
+test_error()
 ```
