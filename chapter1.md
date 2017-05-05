@@ -275,7 +275,7 @@ surveys_first <- surveys[-c(6:nrow(surveys)), ]
 # makes sure they used nrow (but doesn't check how they used it)
 test_function_v2('nrow')
 # makes sure they typed a minus sign somewhere
-test_student_typed('-')
+test_student_typed('-', not_typed_msg = "Did you use `-` to remove all rows past the 6th?")
 
 test_object('surveys_first')
 ```
@@ -319,7 +319,7 @@ levels(sex)[2:3] <- c("Female", "Male")
 
 *** =sct
 ```{r}
-
+ex() %>% check_expr("levels(sex)") %>% check_output() %>% check_equal()
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:df8f896c7f
@@ -361,11 +361,17 @@ plot(sex2)
 
 *** =sct
 ```{r}
-
+ex() %>% 
+    check_function('plot') %>%
+    check_arg('x') %>%
+    check_output("Levels: missing Female Male",
+                 fixed = TRUE, 
+                 missing_msg = "Are the levels of the factor you passed to plot `Female, Male, missing`, in that order? \
+                                See the levels argument of `?factor` for help.")
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:1b0bd6996f
-## stringsAsFactors Challenge (1)
+## stringsAsFactors challenge (1)
 
 We have seen how data frames are created when using the read.csv(), but they can also be created by hand with the data.frame() function. There are a few mistakes in this hand-crafted `data.frame`, can you spot and fix them? Don’t hesitate to experiment!
 
@@ -409,12 +415,17 @@ test_correct(test_error(), {
 
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:dce923f581
-## stringsAsFactors Challenge (2)
+## stringsAsFactors challenge (2)
 
-[MC-note] no SCTs currently--would it be better as MultipleChoice, or maybe just leave as is..
+[MC-note] might be better doing part as multiple choice?
 
 *** =instructions
 
+Can you predict the class for each of the columns in the following example? Check your guesses using `str(country_climate)`
+
+* Are they what you expected? Why? Why not?
+* What would have been different if we had added stringsAsFactors = FALSE to this call?
+* Correct the data.frame function call below so that `temperature`, `northern_hemisphere` and `has_kangaroo` are not represented as factors.
 
 
 *** =hint
@@ -441,14 +452,22 @@ country_climate <- data.frame(
 country_climate <- data.frame(
        country=c("Canada", "Panama", "South Africa", "Australia"),
        climate=c("cold", "hot", "temperate", "hot/temperate"),
-       temperature=c(10, 30, 18, "15"),
-       northern_hemisphere=c(TRUE, TRUE, FALSE, "FALSE"),
-       has_kangaroo=c(FALSE, FALSE, FALSE, 1)
+       temperature=c(10, 30, 18, 15),
+       northern_hemisphere=c(TRUE, TRUE, FALSE, FALSE),
+       has_kangaroo=c(FALSE, FALSE, FALSE, TRUE)
        )
        
 ```
 
 *** =sct
 ```{r}
+ex() %>% check_object('country_climate') %>% {
+    for (colname in c('temperature', 'northern_hemisphere', 'has_kangaroo')) {
+        check_column(., colname)
+        check_expr(., sprintf("class(country_climate$%s)", colname)) %>% 
+            check_output() %>%
+            check_equal()
+    }
+}
 
 ```
