@@ -361,13 +361,12 @@ plot(sex2)
 
 *** =sct
 ```{r}
+# MC-Note: I need to fix this SCT, since it passes inappropriate solutions.
 ex() %>% 
     check_function('plot') %>%
     check_arg('x') %>%
-    check_output("Levels: Female Male missing",
-                 fixed = TRUE, 
-                 missing_msg = "Are the levels of the factor you passed to plot `Female, Male, missing`, in that order? \
-                                See the levels argument of `?factor` for help.")
+    check_equal("Are the levels of the factor you passed to plot `Female, Male, missing`, in that order? \
+                See the levels argument of `?factor` for help.")
 ```
 
 --- type:NormalExercise lang:r xp:100 skills:1 key:1b0bd6996f
